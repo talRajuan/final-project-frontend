@@ -1,0 +1,25 @@
+.items-wrapper {
+  background-color: #fff;
+}
+
+.items-wrapper-imgs {
+  position: relative;
+  overflow: hidden;
+  height: 25rem;
+  overflow-x: scroll;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+  scroll-behavior: smooth;
+  margin-bottom: 200px;
+}
+
+.over-btn {
+  position: absolute;
+  top: 50%;
+  z-index: 2;
+}
+
+.over-btn-right {
+  right: 0;
+}
