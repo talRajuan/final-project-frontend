@@ -16,6 +16,7 @@ import AuthGuardRoute from './components/AuthGuardRoute';
 import useAfterLogin from './hooks/useAfterLogin';
 import AmazonItemsContainerComponent from './components/aboutPageImagesContainer/AboutPageImagesContainerComponent';
 import ContactUsPage from './pages/contactUs/contactus.page';
+import ClassesStorePage from './pages/classesStorePage/classesStore.page';
 
 
 import RegisterBusinessPage from './pages/registerBusiness/registerBusiness.page';
@@ -24,6 +25,8 @@ import FooterComponent from './components/footer/footer.component';
 
 import HomePage from './pages/homePage/home.page';
 import AboutPage from './pages/aboutPage/about.page';
+import ShoppingCartPage from './pages/shoppingCart/shoppingCart.page';
+
 
 function App() {
 	const afterLogin = useAfterLogin();
@@ -60,7 +63,11 @@ function App() {
 				<Route path="/register">
 					<RegisterPage />
 				</Route>
+				<Route path="/classesstore">
+					<ClassesStorePage />
+				</Route>
 				<AuthGuardRoute path="/dashboard" component={DashboardPage} />
+				<AuthGuardRoute path="/shoppingcart" component={ShoppingCartPage} />
 				<AuthGuardRoute path="/createbizcard" component={CreateBizCardPage} />
 				<Route path="/logout">
 					<LogoutPage />

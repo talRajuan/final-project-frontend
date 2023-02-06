@@ -6,11 +6,12 @@ import { useHistory } from "react-router-dom";
 import cardSchmea from "../../validation/teacherCard.validation";
 
 const CreateTeacherCardPage = () => {
- const [ teacherName, setTeacherName ] = useState("");
-	const [ teacherDescription, setTeacherDescription ] = useState("");
-	const [ classAddress, setClassAddress ] = useState("");
-	const [ teacherPhone, setTeacherPhone ] = useState("");
-	const [ teacherImage, setTeacherImage ] = useState("");
+  const [teacherName, setTeacherName] = useState("");
+  const [teacherDescription, setTeacherDescription] = useState("");
+  const [classAddress, setClassAddress] = useState("");
+  const [teacherPhone, setTeacherPhone] = useState("");
+  const [teacherImage, setTeacherImage] = useState("");
+  const [moreInfo, setMoreInfo] = useState("");
   const history = useHistory();
 
   const handleTeacherNameChange = (ev) => {
@@ -28,17 +29,26 @@ const CreateTeacherCardPage = () => {
   const handleTeacherImageChange = (ev) => {
     setTeacherImage(ev.target.value);
   };
+  const handleMoreInfoChange = (ev) => {
+    setMoreInfo(ev.target.value);
+  };
 
   const handleSubmit = (ev) => {
     ev.preventDefault();
     const validatedValue = Joi.validate(
-      { teacherName, teacherDescription, classAddress, teacherPhone, teacherImage },
+      {
+        teacherName,
+        teacherDescription,
+        classAddress,
+        teacherPhone,
+        teacherImage,
+      },
       cardSchmea,
       {
         abortEarly: false,
       }
-
     );
+
     const { error } = validatedValue;
     if (error) {
       for (let item of error.details) {
@@ -50,15 +60,16 @@ const CreateTeacherCardPage = () => {
       teacherDescription,
       classAddress,
       teacherPhone,
+      moreInfo,
     };
     if (teacherImage) {
       dataToSend.teacherImage = teacherImage;
     }
-    console.log("log for tomer", dataToSend);
+    /*  console.log("log for tomer", dataToSend); */
     axios
       .post("/cards", dataToSend)
-      .then((data) => {
-      history.push("/dashboard")
+      .then(() => {
+        history.push("/dashboard");
         toast("new card created 😎 ");
       })
       .catch((err) => {
@@ -127,6 +138,18 @@ const CreateTeacherCardPage = () => {
           id="teacherImageInput"
           value={teacherImage}
           onChange={handleTeacherImageChange}
+        />
+      </div>
+      <div className="mb-3">
+        <label htmlFor="moreinfo" className="form-label">
+          More information
+        </label>
+        <input
+          type="text"
+          className="form-control"
+          id="moreinfo"
+          value={moreInfo}
+          onChange={handleMoreInfoChange}
         />
       </div>
       <button type="submit" className="btn btn-primary">

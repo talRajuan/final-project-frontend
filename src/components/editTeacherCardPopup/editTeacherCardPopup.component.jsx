@@ -42,7 +42,7 @@ const EditTeacherCardPopupComponent = (props) => {
     it will hide the popup.
     to stop this we must use onclick of the from
     and use ev.stopPropagation(); command to tell
-    js don't use onclick of the div (parent)
+    js don't use onclick of the (parent) div 
     */
 		ev.stopPropagation();
 	};

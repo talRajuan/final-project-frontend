@@ -2,84 +2,61 @@ import { Fragment, useState, useEffect } from 'react';
 import axios from 'axios';
 import { cloneDeep } from 'lodash';
 import { toast } from 'react-toastify';
+import { useHistory } from 'react-router-dom';
 
 /* import TeacherCardComponent from '../../components/teacherCard/teacherCard.component'; */
-import EditTeacherCardPopupComponent from '../../components/editTeacherCardPopup/editTeacherCardPopup.component';
 import TeacherCardTestComponent from '../../components/teacherCard/teacherCardTest.component';
+/* import EditTeacherCardPopupComponent from '../../components/editTeacherCardPopup/editTeacherCardPopup.component'; */
+import MoreInfoPopupComponent from '../../components/moreInfoPopup/moreInfoPopup.component';
+/* import MoreInfoPopupComponent from '../../components/moreInfoPopup/moreInfoPopup.component'; */
 
-const DashboardPage = () => {
+const ClassesStorePage = () => {
 	const [ cardsArr, setCardsArr ] = useState([]);
 	const [ dataToEdit, setDataToEdit ] = useState(null);
-	
+
+	const history = useHistory();
 
 	useEffect(() => {
 		getAllCards();
-		
 	}, []);
 
-	const handleDeleteCard = (id) => {
+	const handleEddToCart = (id) => {
 		
+		console.log('id----1',id);
+
 		axios
-			.delete(`/cards/${id}`)
-			.then((res) => {
-				let newCardsArr = cloneDeep(cardsArr);
-				newCardsArr = newCardsArr.filter((item) => item._id !== id);
-				setCardsArr(newCardsArr);
+		.get(`users/add-favorite/${id}`)
+		.then((result) => {
+				console.log("show", result);
+				history.push('/shoppingcart');
+				toast('new card created 😎 ');
 			})
 			.catch((err) => {
-			
-				toast.error('cannot delete the selected card', {
-					position: 'top-right',
-					autoClose: 5000,
-					hideProgressBar: false,
-					closeOnClick: true,
-					pauseOnHover: true,
-					draggable: true,
-					progress: undefined
-				});
+				toast('card alrady exist in cart ');
+				console.log('something want wrong 4', id);
+				console.log(err);
 			});
 	};
 
 	const handleShowPopup = (id) => {
-		
 		let ktemp = cloneDeep(cardsArr.find((item) => item._id === id));
 		setDataToEdit(ktemp);
 	};
 
 	const handleCancelEdit = () => {
-		
 		setDataToEdit(null);
-	};
-
-	const handleEditCard = (_id, updatedCard) => {
-		
-		axios
-			.put('/cards/' + _id, updatedCard)
-			.then((res) => {
-				let newArrOfCard = cloneDeep(cardsArr);
-				let cardItemInd = newArrOfCard.findIndex((item) => item._id === _id);
-				if (cardItemInd !== -1) {
-					newArrOfCard[cardItemInd] = { ...cloneDeep(updatedCard), _id };
-					setCardsArr(newArrOfCard);
-				}
-				setDataToEdit(null);
-			})
-			.catch((err) => {
-				toast('error');
-			});
 	};
 
 	const getAllCards = () => {
 		/*
         getAllCards will send ajax get request to the server
-        and will get array of biz cards
+        and will get array of teachers cards
         then it will update the cardsArr state
         if it will fail then it will create toast popup
     */
 		axios
-			.get('/cards')
+			.get('/allcards')
 			.then((res) => {
-				// console.log(res.data);
 				if (res.data.length === 0) toast('you have no cards');
 				setCardsArr(res.data);
 			})
@@ -122,9 +99,8 @@ const DashboardPage = () => {
 					<TeacherCardTestComponent
 						key={arrOfItems[i]._id + '_child'}
 						{...arrOfItems[i]}
-						onDelete={handleDeleteCard}
-						onEdit={handleShowPopup}
-
+						onEddToCart={handleEddToCart}
+						onShowMoreInfo={handleShowPopup}
 					/>
 				</div>
 			];
@@ -143,15 +119,9 @@ const DashboardPage = () => {
 	return (
 		<Fragment>
 			{renderRowsFromArr(cardsArr)}
-			{dataToEdit && (
-				<EditTeacherCardPopupComponent
-					onCancelEdit={handleCancelEdit}
-					onEditDone={handleEditCard}
-					{...dataToEdit}
-				/>
-			)}
+			{dataToEdit && <MoreInfoPopupComponent onCancelEdit={handleCancelEdit} {...dataToEdit} />}
 		</Fragment>
 	);
 };
 
-export default DashboardPage;
+export default ClassesStorePage;

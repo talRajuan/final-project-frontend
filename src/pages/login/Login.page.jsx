@@ -68,7 +68,7 @@ const LoginPage = () => {
         })
         .then(({ data }) => {
           console.log("data", data);
-          afterLogin(data.token);
+          afterLogin(data.token); 
           if (data.biz === true) {
             history.push("/createbizcard");
           } else {
@@ -115,7 +115,7 @@ const LoginPage = () => {
           value={password}
           onChange={handlePasswordChange}
         />
-        <div className="position-relative">
+        <div className="position-absolute">
           {password.length < 6 && (
             <div id="emailHelp" className="form-text">
               Please provide password with at least 6 characters
@@ -123,17 +123,7 @@ const LoginPage = () => {
           )}
         </div>
       </div>
-      <div className="mb-3 form-check">
-        <input
-          type="checkbox"
-          className="form-check-input"
-          id="exampleCheck1"
-        />
-        <label className="form-check-label" htmlFor="exampleCheck1">
-          Check me out
-        </label>
-      </div>
-      <button type="submit" className="btn btn-primary">
+      <button type="submit" className="btn btn-primary mt-5">
         Submit
       </button>
     </form>
