@@ -39,7 +39,7 @@ const Navbar = () => {
 					</li>
 					<li className="nav-item">
 						<NavLink className="nav-link" to="/registerBusiness">
-							business
+							register as a teacher
 						</NavLink>
 					</li>
 				</Fragment>
@@ -53,7 +53,7 @@ const Navbar = () => {
 				<Fragment>
 					<li className="nav-item">
 						<NavLink className="nav-link" to="/createbizcard">
-							Create biz card
+							Create lesson card
 						</NavLink>
 					</li>
 					<li className="nav-item">

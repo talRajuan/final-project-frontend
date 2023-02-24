@@ -28,7 +28,7 @@ const ClassesStorePage = () => {
 		.get(`users/add-favorite/${id}`)
 		.then((result) => {
 				console.log("show", result);
-				history.push('/shoppingcart');
+				/* history.push('/shoppingcart'); */
 				toast('new card created 😎 ');
 			})
 			.catch((err) => {
